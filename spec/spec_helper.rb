@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'support/models'
 require 'form'
 
 RSpec.configure do |config|
