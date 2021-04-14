@@ -2,6 +2,7 @@
 
 require 'form/version'
 require 'support/string'
+require 'form/tag_generator'
 require 'form/builder'
 
 module Form
