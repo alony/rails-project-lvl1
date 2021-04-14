@@ -8,3 +8,11 @@ module StringWithSafeMethods
     include ActionView::Helpers::TextHelper
   end
 end
+
+module StringWithSnakeCase
+  refine String do
+    def to_snakecase
+      gsub(/(.)([A-Z])/, '\1_\2').downcase
+    end
+  end
+end

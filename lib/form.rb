@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require 'form/version'
 require 'support/string'
+require 'form/record'
 require 'form/tag_generator'
+require 'form/input_factory'
 require 'form/builder'
 
 module Form

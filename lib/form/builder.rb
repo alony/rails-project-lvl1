@@ -2,40 +2,48 @@
 
 module Form
   class Builder
+    include TagGenerator
+
     using StringWithSafeMethods
 
-    attr_accessor :template
+    attr_reader :record
+
+    delegate :name, :persisted?, to: :record, prefix: true
 
     def initialize(model, options)
-      @model = model
+      @record = Record.new(model)
       @options = options
-      @template = []
+      @elements = []
     end
 
     def render
-      content = template.join("\n")
-      form_tag(content)
+      form_tag do
+        @elements.map(&:render).join(' ')
+      end
     end
 
-    def input(name, options = {})
-      @template << TagGenerator.tag(:input, {
-        type: 'text',
-        class: [options.delete(:class), "#{model_name}_#{name}"].compact.join(' ')
-      }.merge(options))
+    def input(attribute, options = {})
+      field = record.field(attribute)
+      type = options.delete(:as) || field.type
+      @elements << InputFactory.input(type).new(field, options)
+    end
+
+    def submit(label = 'Save', options = {})
+      @elements << Elements::Submit.new(label, options)
     end
 
     private
 
-    def form_tag(content)
-      TagGenerator.paired_tag(:form, content, {
+    def form_tag
+      paired_tag(:form, yield, {
         action: @options.delete(:url),
-        method: 'post',
-        class: [@options.delete(:class), model_name].compact.join(' ')
+        method: http_verb,
+        class: [@options.delete(:class), record_name].compact.join(' ')
       }.merge(@options))
     end
 
-    def model_name
-      @model.class.name.gsub(/(.)([A-Z])/, '\1_\2').downcase
+    def http_verb
+      @options.delete(:method) || record_persisted? ? 'patch' : 'post'
     end
   end
 end

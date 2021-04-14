@@ -24,15 +24,17 @@ RSpec.describe Form do
     let(:expected_form) do
       %(
         <form action='/users' method='post' class='user'>
-          <input type='text' class='user_name' />
+          <input type='text' class='user_name' name='user[name]' value='user name' />
+          <input type='submit' value='Save User now' />
         </form>
       )
     end
 
-    it 'generates an empty form' do
+    it 'generates a form with input and submit' do
       expect(
         described_class.form_for(user, url: '/users') do |f|
           f.input :name
+          f.submit 'Save User now'
         end
       ).to match_ignoring_indents(expected_form)
     end
