@@ -2,6 +2,8 @@
 
 module Form
   class Builder
+    include TagGenerator
+
     using StringWithSafeMethods
 
     attr_reader :record
@@ -14,6 +16,12 @@ module Form
       @elements = []
     end
 
+    def render
+      form_tag do
+        @elements.map(&:render).join(' ')
+      end
+    end
+
     def input(attribute, options = {})
       field = record.field(attribute)
       type = options.delete(:as) || field.type
@@ -24,20 +32,14 @@ module Form
       @elements << Elements::Submit.new(label, options)
     end
 
-    def render
-      form_tag do
-        @elements.map(&:render)
-      end.join("\n").html_safe
-    end
-
     private
 
     def form_tag
-      [
-        "<form action='#{@options.delete(:url)}' method='#{http_verb}' class='#{record_name}'>",
-        yield,
-        '</form>'
-      ].flatten
+      paired_tag(:form, yield, {
+        action: @options.delete(:url),
+        method: http_verb,
+        class: [@options.delete(:class), record_name].compact.join(' ')
+      }.merge(@options))
     end
 
     def http_verb

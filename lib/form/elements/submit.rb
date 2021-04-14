@@ -1,9 +1,23 @@
 # frozen_string_literal: true
 
-module Form::Elements
-  class Submit
-    def initialize(label, options); end
+module Form
+  module Elements
+    class Submit
+      include ::Form::TagGenerator
 
-    def render; end
+      attr_accessor :label, :options
+
+      def initialize(label, options)
+        @label = label
+        @options = options
+      end
+
+      def render
+        tag(:input, {
+          type: 'submit',
+          value: label
+        }.merge(options))
+      end
+    end
   end
 end

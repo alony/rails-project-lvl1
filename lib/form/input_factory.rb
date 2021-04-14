@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'elements/input'
-Dir.glob(File.dirname(File.absolute_path(__FILE__)) + '/elements/*', &method(:require))
+Dir.glob("#{File.dirname(File.absolute_path(__FILE__))}/elements/*").sort.each(&method(:require))
 
 module Form
   class InputFactory

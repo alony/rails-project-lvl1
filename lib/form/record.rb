@@ -13,6 +13,8 @@ module Form
     end
 
     def name
+      return @model.model_name.singular if @model.respond_to?(:model_name)
+
       @model.class.name.to_snakecase
     end
 

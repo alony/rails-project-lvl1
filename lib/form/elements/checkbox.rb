@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-module Form::Elements
-  class Checkbox < Input
+module Form
+  module Elements
+    class Checkbox < Input
+    end
   end
 end

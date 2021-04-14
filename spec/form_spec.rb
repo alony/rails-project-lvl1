@@ -8,29 +8,35 @@ RSpec.describe Form do
 
   context 'without fields' do
     let(:expected_form) do
-      "<form action='/users' method='post' class='user'>\n</form>"
+      %(
+        <form action='/users' method='post' class='user'>
+        </form>
+      )
     end
 
     it 'generates an empty form' do
-      expect(described_class.form_for(user, url: '/users')).to eq expected_form
+      generated_html = described_class.form_for(user, url: '/users')
+      expect(generated_html).to match_ignoring_indents(expected_form)
     end
   end
 
   context 'with fields' do
     let(:expected_form) do
-      ["<form action='/users' method='post' class='user'>",
-       "<input type='text' name='user_name' class='user' value='user name'/>",
-       "<input type='submit' name='commit' value=''>",
-       '</form>'].join("\n")
+      %(
+        <form action='/users' method='post' class='user'>
+          <input type='text' class='user_name' name='user[name]' value='user name' />
+          <input type='submit' value='Save User now' />
+        </form>
+      )
     end
 
-    it 'generates a form with inputs' do
+    it 'generates a form with input and submit' do
       expect(
-        described_class.form_for(user, url: '/users', class: 'create_user') do |f|
+        described_class.form_for(user, url: '/users') do |f|
           f.input :name
-          f.submit
+          f.submit 'Save User now'
         end
-      ).to eq expected_form
+      ).to match_ignoring_indents(expected_form)
     end
   end
 end
