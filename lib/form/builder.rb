@@ -9,17 +9,29 @@ module Form
     def initialize(model, options)
       @model = model
       @options = options
-      @template = [form_tag]
+      @template = []
     end
 
     def render
-      template.join("\n").html_safe
+      content = template.join("\n")
+      form_tag(content)
+    end
+
+    def input(name, options = {})
+      @template << TagGenerator.tag(:input, {
+        type: 'text',
+        class: [options.delete(:class), "#{model_name}_#{name}"].compact.join(' ')
+      }.merge(options))
     end
 
     private
 
-    def form_tag
-      "<form action='#{@options[:url]}' method='post' class='#{model_name}'>\n</form>"
+    def form_tag(content)
+      TagGenerator.paired_tag(:form, content, {
+        action: @options.delete(:url),
+        method: 'post',
+        class: [@options.delete(:class), model_name].compact.join(' ')
+      }.merge(@options))
     end
 
     def model_name
