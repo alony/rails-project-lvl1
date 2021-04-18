@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Form
+module HexletCode
   module Elements
     class Submit
       attr_accessor :label, :options

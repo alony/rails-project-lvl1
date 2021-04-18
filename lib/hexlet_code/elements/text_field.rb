@@ -1,16 +1,11 @@
 # frozen_string_literal: true
 
-module Form
+module HexletCode
   module Elements
-    class TextArea < Input
-      DEFAULT_ROWS = 20
-      DEFAULT_COLS = 40
-
+    class TextField < Input
       def render
-        options[:rows] ||= DEFAULT_ROWS
-        options[:cols] ||= DEFAULT_COLS
-
-        Tag.build(:textarea, {
+        Tag.build(:input, {
+          type: 'text',
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name,
           value: sanitize_value(field.value)

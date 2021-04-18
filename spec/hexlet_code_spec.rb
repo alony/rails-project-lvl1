@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Form do
+RSpec.describe HexletCode do
   let(:user) do
     OpenStruct.new(
       name: user_name,

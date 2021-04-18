@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'support/string'
-require 'form/record'
-require 'form/tag'
-require 'form/input_factory'
-require 'form/builder'
+require 'hexlet_code/record'
+require 'hexlet_code/tag'
+require 'hexlet_code/input_factory'
+require 'hexlet_code/builder'
 
-module Form
+module HexletCode
   def self.form_for(model, options)
     builder = Builder.new(model, options)
     yield(builder) if block_given?
