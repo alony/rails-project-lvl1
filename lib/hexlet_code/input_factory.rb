@@ -9,6 +9,8 @@ module HexletCode
       case type
       when :boolean
         Elements::Checkbox
+      when :select
+        Elements::Select
       when :text
         Elements::TextArea
       else

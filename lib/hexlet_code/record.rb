@@ -23,16 +23,24 @@ module HexletCode
         model_name: name,
         attribute: attribute.to_s.to_snakecase,
         type: field_type(attribute),
-        value: @model.public_send(attribute)
+        value: field_value(attribute)
       )
     end
 
     private
 
     def field_type(attribute)
-      return unless @model.class.respond_to?(:type_for_attribute)
+      return type_by_value(attribute) unless @model.class.respond_to?(:type_for_attribute)
 
       @model.class.type_for_attribute(attribute.to_s).type
+    end
+
+    def field_value(attribute)
+      @model.public_send(attribute)
+    end
+
+    def type_by_value(attribute)
+      return :boolean if [true, false].include?(field_value(attribute))
     end
   end
 end

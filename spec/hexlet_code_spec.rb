@@ -7,6 +7,8 @@ RSpec.describe HexletCode do
     OpenStruct.new(
       name: user_name,
       description: description,
+      confirmed: true,
+      status: 'client',
       model_name: OpenStruct.new(singular: 'user'),
       persisted?: persisted
     )
@@ -47,24 +49,56 @@ RSpec.describe HexletCode do
   end
 
   context 'with fields' do
-    let(:expected_form) do
-      %(
-        <form action='/users' method='post' class='user'>
-          <input type='text' class='user_name' name='user[name]' value='user name'>
-          <textarea class='user_description' name='user[description]' value='desc' rows='20' cols='40'>
-          <input type='submit' value='Save User now'>
-        </form>
-      )
+    context 'with field types explicitely given' do
+      let(:expected_form) do
+        %(
+          <form action='/users' method='post' class='user'>
+            <input type='text' class='user_name' name='user[name]' value='user name'>
+            <textarea class='user_description' name='user[description]' value='desc' rows='100' cols='40'>
+            <input type='checkbox' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <select class='user_status' name='user[status]'>
+              <option value='client' selected='selected'> client </option>
+              <option value='non-client'> non-client </option>
+              <option value='potential client'> potential client </option>
+            </select>
+            <input type='submit' value='Save User now'>
+          </form>
+        )
+      end
+
+      it 'generates a form with input and submit' do
+        expect(
+          described_class.form_for(user, url: '/users') do |f|
+            f.input :name
+            f.input :description, as: :text, rows: 100
+            f.input :confirmed, as: :boolean
+            f.input :status, as: :select, options: ['client', 'non-client', 'potential client']
+            f.submit 'Save User now'
+          end
+        ).to match_ignoring_indents(expected_form)
+      end
     end
 
-    it 'generates a form with input and submit' do
-      expect(
-        described_class.form_for(user, url: '/users') do |f|
-          f.input :name
-          f.input :description, as: :text
-          f.submit 'Save User now'
-        end
-      ).to match_ignoring_indents(expected_form)
+    context 'with field types to be defined by values' do
+      let(:expected_form) do
+        %(
+          <form action='/users' method='post' class='user'>
+            <input type='text' class='user_name' name='user[name]' value='user name'>
+            <input type='checkbox' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <input type='submit' value='Save'>
+          </form>
+        )
+      end
+
+      it 'generates a form with correct inputs' do
+        expect(
+          described_class.form_for(user, url: '/users') do |f|
+            f.input :name
+            f.input :confirmed
+            f.submit
+          end
+        ).to match_ignoring_indents(expected_form)
+      end
     end
 
     context 'with unsafe values' do
@@ -74,16 +108,14 @@ RSpec.describe HexletCode do
         %(
           <form action='/users' method='post' class='user'>
             <textarea class='user_description' name='user[description]' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
-            <input type='submit' value='Save User now'>
           </form>
         )
       end
 
-      it 'generates a form with input and submit' do
+      it 'generates a form with sanitized value' do
         expect(
           described_class.form_for(user, url: '/users') do |f|
             f.input :description, as: :text
-            f.submit 'Save User now'
           end
         ).to match_ignoring_indents(expected_form)
       end
