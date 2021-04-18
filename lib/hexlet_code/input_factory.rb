@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'elements/input'
-Dir.glob("#{File.dirname(File.absolute_path(__FILE__))}/elements/*").sort.each(&method(:require))
+require_relative 'elements/checkbox'
+require_relative 'elements/select'
+require_relative 'elements/submit'
+require_relative 'elements/text_area'
+require_relative 'elements/text_field'
 
 module HexletCode
   class InputFactory
