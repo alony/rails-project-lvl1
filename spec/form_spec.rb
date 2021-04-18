@@ -3,8 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe Form do
-  let(:user) { User.new(name: user_name) }
+  let(:user) { OpenStruct.new(name: user_name, description: 'desc', model_name: model_name, persisted?: false) }
   let(:user_name) { 'user name' }
+  let(:model_name) { OpenStruct.new(singular: 'user') }
 
   context 'without fields' do
     let(:expected_form) do
@@ -25,6 +26,7 @@ RSpec.describe Form do
       %(
         <form action='/users' method='post' class='user'>
           <input type='text' class='user_name' name='user[name]' value='user name' />
+          <textarea class='user_description' name='user[description]' value='desc' rows='20' cols='40' />
           <input type='submit' value='Save User now' />
         </form>
       )
@@ -34,6 +36,7 @@ RSpec.describe Form do
       expect(
         described_class.form_for(user, url: '/users') do |f|
           f.input :name
+          f.input :description, as: :text
           f.submit 'Save User now'
         end
       ).to match_ignoring_indents(expected_form)

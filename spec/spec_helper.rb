@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
+require 'ostruct'
 require 'bundler/setup'
-require 'support/models'
 require 'support/ignore_indents_matcher'
 require 'form'
 
