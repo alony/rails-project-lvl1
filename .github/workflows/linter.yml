@@ -1,0 +1,21 @@
+name: linter
+
+on: push
+
+jobs:
+  linter:
+    name: Rubocop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: run linter
+        run: bundle exec rubocop
