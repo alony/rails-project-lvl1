@@ -2,8 +2,6 @@
 
 module Form
   class Builder
-    include TagGenerator
-
     using StringWithSafeMethods
 
     attr_reader :record
@@ -35,11 +33,11 @@ module Form
     private
 
     def form_tag
-      paired_tag(:form, yield, {
+      Tag.build(:form, {
         action: @options.delete(:url),
         method: http_verb,
         class: [@options.delete(:class), record_name].compact.join(' ')
-      }.merge(@options))
+      }.merge(@options), &proc)
     end
 
     def http_verb

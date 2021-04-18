@@ -3,7 +3,7 @@
 module Form
   module Elements
     class Input
-      include ::Form::TagGenerator
+      using StringWithSafeMethods
 
       attr_accessor :field, :options
 
@@ -24,6 +24,10 @@ module Form
 
       def input_class
         "#{field.model_name}_#{field.attribute}"
+      end
+
+      def sanitize_value(value)
+        value.to_s.sanitize
       end
     end
   end

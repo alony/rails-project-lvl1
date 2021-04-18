@@ -4,11 +4,11 @@ module Form
   module Elements
     class TextField < Input
       def render
-        tag(:input, {
+        Tag.build(:input, {
           type: 'text',
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name,
-          value: field.value
+          value: sanitize_value(field.value)
         }.merge(options))
       end
     end

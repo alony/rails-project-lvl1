@@ -10,10 +10,10 @@ module Form
         options[:rows] ||= DEFAULT_ROWS
         options[:cols] ||= DEFAULT_COLS
 
-        tag(:textarea, {
+        Tag.build(:textarea, {
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name,
-          value: field.value
+          value: sanitize_value(field.value)
         }.merge(options))
       end
     end

@@ -3,8 +3,6 @@
 module Form
   module Elements
     class Submit
-      include ::Form::TagGenerator
-
       attr_accessor :label, :options
 
       def initialize(label, options)
@@ -13,7 +11,7 @@ module Form
       end
 
       def render
-        tag(:input, {
+        Tag.build(:input, {
           type: 'submit',
           value: label
         }.merge(options))

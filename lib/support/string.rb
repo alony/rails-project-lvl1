@@ -4,8 +4,13 @@ require 'action_view'
 
 module StringWithSafeMethods
   refine String do
-    # for html_safe and safe_concat methods
+    # for html_safe and sanitize methods
     include ActionView::Helpers::TextHelper
+
+    def sanitize
+      sanitizer = Rails::Html::Sanitizer.safe_list_sanitizer.new
+      sanitizer.sanitize(self, {})&.html_safe
+    end
   end
 end
 

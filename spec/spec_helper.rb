@@ -4,6 +4,7 @@ require 'ostruct'
 require 'bundler/setup'
 require 'support/ignore_indents_matcher'
 require 'form'
+require 'pry'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

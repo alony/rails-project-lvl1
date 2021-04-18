@@ -2,7 +2,7 @@
 
 require 'support/string'
 require 'form/record'
-require 'form/tag_generator'
+require 'form/tag'
 require 'form/input_factory'
 require 'form/builder'
 
