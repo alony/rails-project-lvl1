@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe HexletCode do
   let(:user) do
     OpenStruct.new(
@@ -130,3 +131,4 @@ RSpec.describe HexletCode do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
