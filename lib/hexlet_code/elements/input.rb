@@ -31,7 +31,8 @@ module HexletCode
       end
 
       def input_name
-        "#{field.model_name}[#{field.attribute}]"
+        field.attribute
+        # "#{field.model_name}[#{field.attribute}]" <- would be better to leave it
       end
 
       def input_class

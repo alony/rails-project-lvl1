@@ -54,13 +54,13 @@ RSpec.describe HexletCode do
         %(
           <form action='/users' method='post' class='user'>
             <label for='name'> name </label>
-            <input type='text' id='name' class='user_name' name='user[name]' value='user name'>
+            <input type='text' id='name' class='user_name' name='name' value='user name'>
             <label for='description'> description </label>
-            <textarea id='description' class='user_description' name='user[description]' value='desc' rows='100' cols='40'>
-            <input type='checkbox' id='confirmed' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <textarea id='description' class='user_description' name='description' value='desc' rows='100' cols='40'>
+            <input type='checkbox' id='confirmed' class='user_confirmed' name='confirmed' checked='true'>
             <label for='confirmed'> confirmed </label>
             <label for='status'> status </label>
-            <select id='status' class='user_status' name='user[status]'>
+            <select id='status' class='user_status' name='status'>
               <option value='client' selected='selected'> client </option>
               <option value='non-client'> non-client </option>
               <option value='potential client'> potential client </option>
@@ -88,8 +88,8 @@ RSpec.describe HexletCode do
         %(
           <form action='/users' method='post' class='user'>
             <label for='name'> name </label>
-            <input type='text' id='name' class='user_name' name='user[name]' value='user name'>
-            <input type='checkbox' id='confirmed' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <input type='text' id='name' class='user_name' name='name' value='user name'>
+            <input type='checkbox' id='confirmed' class='user_confirmed' name='confirmed' checked='true'>
             <label for='confirmed'> confirmed </label>
             <input type='submit' value='Save'>
           </form>
@@ -114,7 +114,7 @@ RSpec.describe HexletCode do
         %(
           <form action='/users' method='post' class='user'>
             <label for='description'> text area description </label>
-            <textarea id='description' class='user_description' name='user[description]' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
+            <textarea id='description' class='user_description' name='description' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
           </form>
         )
       end
