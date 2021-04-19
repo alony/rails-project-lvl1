@@ -114,7 +114,8 @@ RSpec.describe HexletCode do
         %(
           <form action='/users' method='post' class='user'>
             <label for='description'> text area description </label>
-            <textarea id='description' class='user_description' name='description' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
+            <textarea id='description' class='user_description' name='description'
+              value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
           </form>
         )
       end
