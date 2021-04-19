@@ -53,10 +53,14 @@ RSpec.describe HexletCode do
       let(:expected_form) do
         %(
           <form action='/users' method='post' class='user'>
-            <input type='text' class='user_name' name='user[name]' value='user name'>
-            <textarea class='user_description' name='user[description]' value='desc' rows='100' cols='40'>
-            <input type='checkbox' class='user_confirmed' name='user[confirmed]' checked='true'>
-            <select class='user_status' name='user[status]'>
+            <label for='name'> name </label>
+            <input type='text' id='name' class='user_name' name='user[name]' value='user name'>
+            <label for='description'> description </label>
+            <textarea id='description' class='user_description' name='user[description]' value='desc' rows='100' cols='40'>
+            <input type='checkbox' id='confirmed' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <label for='confirmed'> confirmed </label>
+            <label for='status'> status </label>
+            <select id='status' class='user_status' name='user[status]'>
               <option value='client' selected='selected'> client </option>
               <option value='non-client'> non-client </option>
               <option value='potential client'> potential client </option>
@@ -83,8 +87,10 @@ RSpec.describe HexletCode do
       let(:expected_form) do
         %(
           <form action='/users' method='post' class='user'>
-            <input type='text' class='user_name' name='user[name]' value='user name'>
-            <input type='checkbox' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <label for='name'> name </label>
+            <input type='text' id='name' class='user_name' name='user[name]' value='user name'>
+            <input type='checkbox' id='confirmed' class='user_confirmed' name='user[confirmed]' checked='true'>
+            <label for='confirmed'> confirmed </label>
             <input type='submit' value='Save'>
           </form>
         )
@@ -107,7 +113,8 @@ RSpec.describe HexletCode do
       let(:expected_form) do
         %(
           <form action='/users' method='post' class='user'>
-            <textarea class='user_description' name='user[description]' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
+            <label for='description'> text area description </label>
+            <textarea id='description' class='user_description' name='user[description]' value='"&gt; alert("Hello unsafe")' rows='20' cols='40'>
           </form>
         )
       end
@@ -115,7 +122,7 @@ RSpec.describe HexletCode do
       it 'generates a form with sanitized value' do
         expect(
           described_class.form_for(user, url: '/users') do |f|
-            f.input :description, as: :text
+            f.input :description, as: :text, label: 'text area description'
           end
         ).to match_ignoring_indents(expected_form)
       end

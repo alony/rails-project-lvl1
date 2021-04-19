@@ -17,6 +17,6 @@ RSpec::Matchers.define :match_ignoring_indents do |expected|
   end
 
   def normalize(string)
-    string.gsub(/\s+/, ' ').strip
+    string.gsub(/\s+/, ' ').gsub(/> </, '><').strip
   end
 end

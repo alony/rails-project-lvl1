@@ -3,9 +3,10 @@
 module HexletCode
   module Elements
     class TextField < Input
-      def render
+      def input
         Tag.build(:input, {
           type: 'text',
+          id: input_id,
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name,
           value: sanitize_value(field.value)

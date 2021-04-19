@@ -6,11 +6,12 @@ module HexletCode
       DEFAULT_ROWS = 20
       DEFAULT_COLS = 40
 
-      def render
+      def input
         options[:rows] ||= DEFAULT_ROWS
         options[:cols] ||= DEFAULT_COLS
 
         Tag.build(:textarea, {
+          id: input_id,
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name,
           value: sanitize_value(field.value)

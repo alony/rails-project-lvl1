@@ -13,10 +13,22 @@ module HexletCode
       end
 
       def render
+        label + input
+      end
+
+      def input
         raise NotImplementedError, 'to be implemented in subclasses'
       end
 
+      def label
+        Tag.build(:label, for: input_id) { @options.delete(:label) || field.attribute }
+      end
+
       private
+
+      def input_id
+        field.attribute
+      end
 
       def input_name
         "#{field.model_name}[#{field.attribute}]"

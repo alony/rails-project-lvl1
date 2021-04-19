@@ -3,8 +3,9 @@
 module HexletCode
   module Elements
     class Select < Input
-      def render
+      def input
         Tag.build(:select, {
+          id: input_id,
           class: [options.delete(:class), input_class].compact.join(' '),
           name: input_name
         }.merge(options.except(:options))) { select_options }

@@ -16,7 +16,7 @@ module HexletCode
 
     def render
       form_tag do
-        @elements.map(&:render).join(' ')
+        @elements.map(&:render).join
       end
     end
 
