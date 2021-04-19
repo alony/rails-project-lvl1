@@ -69,7 +69,7 @@ RSpec.describe HexletCode do
       it 'generates a form with input and submit' do
         expect(
           described_class.form_for(user, url: '/users') do |f|
-            f.input :name
+            f.input :name, as: :text_field
             f.input :description, as: :text, rows: 100
             f.input :confirmed, as: :boolean
             f.input :status, as: :select, options: ['client', 'non-client', 'potential client']
