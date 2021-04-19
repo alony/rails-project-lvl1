@@ -6,8 +6,6 @@ module HexletCode
 
     RecordField = Struct.new(:model_name, :attribute, :type, :value, keyword_init: true)
 
-    delegate :persisted?, to: :@model
-
     def initialize(model)
       @model = model
     end
@@ -25,6 +23,10 @@ module HexletCode
         type: field_type(attribute),
         value: field_value(attribute)
       )
+    end
+
+    def persisted?
+      return @model.persisted? if @model.respond_to?(:persisted?)
     end
 
     private
