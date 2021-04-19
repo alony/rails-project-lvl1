@@ -13,6 +13,7 @@ module HexletCode
       def render
         Tag.build(:input, {
           type: 'submit',
+          name: 'commit',
           value: label
         }.merge(options))
       end

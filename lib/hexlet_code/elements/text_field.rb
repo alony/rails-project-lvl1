@@ -7,7 +7,7 @@ module HexletCode
         Tag.build(:input, {
           type: 'text',
           id: input_id,
-          class: [options.delete(:class), input_class].compact.join(' '),
+          class: input_class,
           name: input_name,
           value: sanitize_value(field.value)
         }.merge(options))

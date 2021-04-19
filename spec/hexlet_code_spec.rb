@@ -65,7 +65,7 @@ RSpec.describe HexletCode do
               <option value='non-client'> non-client </option>
               <option value='potential client'> potential client </option>
             </select>
-            <input type='submit' value='Save User now'>
+            <input type='submit' name='commit' value='Save User now'>
           </form>
         )
       end
@@ -91,7 +91,7 @@ RSpec.describe HexletCode do
             <input type='text' id='name' class='user_name' name='name' value='user name'>
             <input type='checkbox' id='confirmed' class='user_confirmed' name='confirmed' checked='true'>
             <label for='confirmed'> confirmed </label>
-            <input type='submit' value='Save'>
+            <input type='submit' name='commit' value='Save'>
           </form>
         )
       end

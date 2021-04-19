@@ -21,7 +21,7 @@ module HexletCode
       end
 
       def label
-        Tag.build(:label, for: input_id) { @options.delete(:label) || field.attribute }
+        Tag.build(:label, for: input_id) { options.delete(:label) || field.attribute }
       end
 
       private
@@ -36,7 +36,7 @@ module HexletCode
       end
 
       def input_class
-        "#{field.model_name}_#{field.attribute}"
+        [options.delete(:class), "#{field.model_name}_#{field.attribute}"].compact.join(' ')
       end
 
       def sanitize_value(value)

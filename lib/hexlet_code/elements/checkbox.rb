@@ -11,7 +11,7 @@ module HexletCode
         Tag.build(:input, {
           type: 'checkbox',
           id: input_id,
-          class: [options.delete(:class), input_class].compact.join(' '),
+          class: input_class,
           name: input_name
         }.merge(options).merge(checked))
       end
