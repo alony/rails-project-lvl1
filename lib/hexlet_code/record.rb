@@ -24,7 +24,7 @@ module HexletCode
     end
 
     def persisted?
-      return @model.persisted? if @model.respond_to?(:persisted?)
+      @model.persisted? if @model.respond_to?(:persisted?)
     end
 
     private
@@ -36,7 +36,7 @@ module HexletCode
     end
 
     def type_by_value(attribute)
-      return :boolean if [true, false].include?(field_value(attribute))
+      :boolean if [true, false].include?(field_value(attribute))
     end
 
     def field_value(attribute)
