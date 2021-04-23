@@ -3,17 +3,13 @@
 module HexletCode
   module Elements
     class Checkbox < Input
-      def render
-        input + label
+      def structure
+        [input, label]
       end
 
       def input
-        Tag.build(:input, {
-          type: 'checkbox',
-          id: input_id,
-          class: input_class,
-          name: input_name
-        }.merge(options).merge(checked))
+        { tag: :input,
+          options: { type: 'checkbox', id: input_id, class: input_class, name: input_name }.merge(checked) }
       end
 
       private

@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-require 'support/string'
-require 'hexlet_code/record'
-require 'hexlet_code/tag'
-require 'hexlet_code/input_factory'
-require 'hexlet_code/builder'
+require 'active_support'
 
 module HexletCode
+  autoload :Record, 'hexlet_code/record.rb'
+  autoload :Builder, 'hexlet_code/builder.rb'
+  autoload :Template, 'hexlet_code/template.rb'
+  autoload :Elements, 'hexlet_code/elements.rb'
+
   def self.form_for(model, options)
     builder = Builder.new(model, options)
     yield(builder) if block_given?
-    builder.render
+    Template.render(builder.structure)
   end
 end

@@ -10,12 +10,8 @@ module HexletCode
         @options = options
       end
 
-      def render
-        Tag.build(:input, {
-          type: 'submit',
-          name: 'commit',
-          value: label
-        }.merge(options))
+      def structure
+        { tag: :input, options: { type: 'submit', name: 'commit', value: label } }
       end
     end
   end

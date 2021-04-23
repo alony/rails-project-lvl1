@@ -2,8 +2,6 @@
 
 module HexletCode
   class Record
-    using StringWithSnakeCase
-
     RecordField = Struct.new(:model_name, :attribute, :type, :value, keyword_init: true)
 
     def initialize(model)
@@ -13,13 +11,13 @@ module HexletCode
     def name
       return @model.model_name.singular if @model.respond_to?(:model_name)
 
-      @model.class.name.to_snakecase
+      snakecase(@model.class.name)
     end
 
     def field(attribute)
       RecordField.new(
         model_name: name,
-        attribute: attribute.to_s.to_snakecase,
+        attribute: snakecase(attribute),
         type: field_type(attribute),
         value: field_value(attribute)
       )
@@ -37,12 +35,16 @@ module HexletCode
       @model.class.type_for_attribute(attribute.to_s).type
     end
 
+    def type_by_value(attribute)
+      return :boolean if [true, false].include?(field_value(attribute))
+    end
+
     def field_value(attribute)
       @model.public_send(attribute)
     end
 
-    def type_by_value(attribute)
-      return :boolean if [true, false].include?(field_value(attribute))
+    def snakecase(string)
+      string.to_s.gsub(/(.)([A-Z])/, '\1_\2').downcase
     end
   end
 end

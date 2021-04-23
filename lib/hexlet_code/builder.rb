@@ -2,11 +2,7 @@
 
 module HexletCode
   class Builder
-    using StringWithSafeMethods
-
     attr_reader :record
-
-    delegate :name, :persisted?, to: :record, prefix: true
 
     def initialize(model, options)
       @record = Record.new(model)
@@ -14,16 +10,16 @@ module HexletCode
       @elements = []
     end
 
-    def render
-      form_tag do
-        @elements.map(&:render).join
-      end
+    def structure
+      { tag: :form,
+        options: { action: @options[:url], method: http_verb, class: form_class },
+        nested: @elements.map(&:structure).flatten }
     end
 
     def input(attribute, options = {})
       field = record.field(attribute)
-      type = options.delete(:as) || field.type
-      @elements << InputFactory.input(type).new(field, options)
+      type = options[:as] || field.type
+      @elements << Elements.input_by_type(type).new(field, options)
     end
 
     def submit(label = 'Save', options = {})
@@ -32,16 +28,12 @@ module HexletCode
 
     private
 
-    def form_tag
-      Tag.build(:form, {
-        action: @options.delete(:url),
-        method: http_verb,
-        class: [@options.delete(:class), record_name].compact.join(' ')
-      }.merge(@options), &proc)
+    def form_class
+      [@options[:class], record.name].compact.join(' ')
     end
 
     def http_verb
-      @options.delete(:method) || record_persisted? ? 'patch' : 'post'
+      @options[:method] || record.persisted? ? 'patch' : 'post'
     end
   end
 end

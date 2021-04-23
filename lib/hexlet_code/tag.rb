@@ -2,23 +2,21 @@
 
 module HexletCode
   module Tag
-    using StringWithSafeMethods
-
     class << self
       def build(type, options)
         tag = "<#{type} #{options_to_attributes(options)}>"
-        if block_given?
-          tag += %(
-            #{yield}
-            </#{type}>
-          )
-        end
+        return html_safe(tag) unless block_given?
 
-        tag.html_safe
+        content = yield
+        html_safe("#{tag} #{content} </#{type}>")
       end
 
       def options_to_attributes(options)
         options.map { |(key, value)| "#{key}='#{value}'" }.join(' ')
+      end
+
+      def html_safe(html)
+        ActiveSupport::SafeBuffer.new(html)
       end
     end
   end

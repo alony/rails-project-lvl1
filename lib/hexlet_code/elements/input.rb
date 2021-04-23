@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
+require 'rails-html-sanitizer'
+
 module HexletCode
   module Elements
     class Input
-      using StringWithSafeMethods
-
       attr_accessor :field, :options
 
       def initialize(field, options)
@@ -12,8 +12,8 @@ module HexletCode
         @options = options
       end
 
-      def render
-        label + input
+      def structure
+        [label, input]
       end
 
       def input
@@ -21,7 +21,7 @@ module HexletCode
       end
 
       def label
-        Tag.build(:label, for: input_id) { options.delete(:label) || field.attribute }
+        { tag: :label, options: { for: input_id }, content: options[:label] || field.attribute }
       end
 
       private
@@ -32,15 +32,14 @@ module HexletCode
 
       def input_name
         field.attribute
-        # "#{field.model_name}[#{field.attribute}]" <- would be better to leave it
       end
 
       def input_class
-        [options.delete(:class), "#{field.model_name}_#{field.attribute}"].compact.join(' ')
+        [options[:class], "#{field.model_name}_#{field.attribute}"].compact.join(' ')
       end
 
       def sanitize_value(value)
-        value.to_s.sanitize
+        Rails::Html::SafeListSanitizer.new.sanitize(value.to_s)
       end
     end
   end

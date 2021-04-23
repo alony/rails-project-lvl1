@@ -7,15 +7,14 @@ module HexletCode
       DEFAULT_COLS = 40
 
       def input
-        options[:rows] ||= DEFAULT_ROWS
-        options[:cols] ||= DEFAULT_COLS
-
-        Tag.build(:textarea, {
-          id: input_id,
-          class: input_class,
-          name: input_name,
-          value: sanitize_value(field.value)
-        }.merge(options))
+        {
+          tag: :textarea, options: {
+            id: input_id, class: input_class, name: input_name,
+            value: sanitize_value(field.value),
+            rows: options[:rows] || DEFAULT_ROWS,
+            cols: options[:cols] || DEFAULT_COLS
+          }
+        }
       end
     end
   end
