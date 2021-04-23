@@ -5,15 +5,13 @@ module HexletCode
 
   class Template
     def self.render(structure)
-      return Tag.build(structure[:tag], structure[:options] || {}) if %i[content nested].none? { |s| structure.key? s }
+      options = structure[:options] || {}
 
-      block = lambda {
-        return structure[:content] if structure[:content].present?
+      return Tag.build(structure[:tag], options) if %i[content nested].none? { |s| structure.key? s }
 
-        structure[:nested].map { |nested| render(nested) }.join
-      }
-
-      Tag.build(structure[:tag], structure[:options] || {}, &block)
+      Tag.build(structure[:tag], options) do
+        structure[:content].presence || structure[:nested].map { |nested| render(nested) }.join
+      end
     end
   end
 end
