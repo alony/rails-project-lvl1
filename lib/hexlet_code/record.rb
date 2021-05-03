@@ -11,13 +11,13 @@ module HexletCode
     def name
       return @model.model_name.singular if @model.respond_to?(:model_name)
 
-      snakecase(@model.class.name)
+      underscore(@model.class.name)
     end
 
     def field(attribute)
       RecordField.new(
         model_name: name,
-        attribute: snakecase(attribute),
+        attribute: underscore(attribute),
         type: field_type(attribute),
         value: field_value(attribute)
       )
@@ -43,8 +43,8 @@ module HexletCode
       @model.public_send(attribute)
     end
 
-    def snakecase(string)
-      string.to_s.gsub(/(.)([A-Z])/, '\1_\2').downcase
+    def underscore(string)
+      ActiveSupport::Inflector.underscore(string)
     end
   end
 end
